@@ -16,6 +16,10 @@ public class PokedexAppGui extends JFrame {
     private JLabel pokemonImage;
     private JLabel pokemonText;
     private JLabel pokemonId;
+    private JLabel pokemonType;
+    private JLabel pokemonType2;
+    private JLabel firstType;
+    private JLabel secondType;
 
     public PokedexAppGui() {
         super("Pokedex");
@@ -49,11 +53,30 @@ public class PokedexAppGui extends JFrame {
         pokemonText.setHorizontalAlignment(SwingConstants.CENTER);
         add(pokemonText);
 
-        pokemonId = new JLabel("26");
+        pokemonId = new JLabel("25");
         pokemonId.setBounds(150, 300, 450, 100);
         pokemonId.setFont(new Font("Dialog", Font.BOLD, 48));
         add(pokemonId);
+        
+        firstType = new JLabel("1st Type");
+        firstType.setBounds(50, 375, 450, 100);
+        firstType.setFont(new Font("Dialog", Font.BOLD, 20));
+        add(firstType);
 
+        secondType = new JLabel("2nd Type");
+        secondType.setBounds(200, 375, 450, 100);
+        secondType.setFont(new Font("Dialog", Font.BOLD, 20));
+        add(secondType);
+
+        pokemonType = new JLabel("Electric");
+        pokemonType.setBounds(50, 400, 450, 100);
+        pokemonType.setFont(new Font("Dialog", Font.BOLD, 40));
+        add(pokemonType);
+
+        pokemonType2 = new JLabel("None");
+        pokemonType2.setBounds(200, 400, 450, 100);
+        pokemonType2.setFont(new Font("Dialog", Font.BOLD, 40));
+        add(pokemonType2);
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,7 +96,7 @@ public class PokedexAppGui extends JFrame {
     private void updatePokemonInfo(JSONObject pokemon) {
         String name = (String) pokemon.get("name");
         long id = (long) pokemon.get("id");
-       
+  
         // Update the text
         pokemonText.setText(name.substring(0, 1).toUpperCase() + name.substring(1));
         pokemonId.setText(String.valueOf(id));
@@ -85,12 +108,24 @@ public class PokedexAppGui extends JFrame {
         pokemonImage.setIcon(loadImageFromUrl(spriteUrl));
 
 
-        // JSONArray types = (JSONArray) pokemon.get("types");
-        // JSONObject type = (JSONObject) ((JSONObject) types.get(0)).get("type");
-        // String typeName = (String) type.get("name");
+        JSONArray types = (JSONArray) pokemon.get("types");
+        JSONObject type = (JSONObject) ((JSONObject) types.get(0)).get("type");
+        String typeName = (String) type.get("name");
 
-  
-    }
+        
+       
+        pokemonType.setText(typeName.substring(0, 1).toUpperCase() + typeName.substring(1));
+        if(types.size() > 1){
+            JSONObject type2 = (JSONObject) ((JSONObject) types.get(1)).get("type");
+            String typeName2 = (String) type2.get("name");
+            pokemonType2.setText(typeName2.substring(0, 1).toUpperCase() + typeName2.substring(1));
+        } else {
+            pokemonType2.setText("None");
+        }
+
+
+        }
+
 
     private ImageIcon loadImageFromFile(String resourcePath) {
         try {
