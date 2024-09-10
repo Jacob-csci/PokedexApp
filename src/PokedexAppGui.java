@@ -20,6 +20,8 @@ public class PokedexAppGui extends JFrame {
     private JLabel pokemonType2;
     private JLabel firstType;
     private JLabel secondType;
+    private JLabel height;
+    private JLabel weight;
 
     public PokedexAppGui() {
         super("Pokedex");
@@ -43,9 +45,23 @@ public class PokedexAppGui extends JFrame {
         searchButton.setBounds(275, 15, 53, 47);
         add(searchButton);
 
+        JButton shinyButton = new JButton("Shiny");
+        shinyButton.setBounds(225, 200, 100, 30);
+        add(shinyButton);
+
         pokemonImage = new JLabel(loadImageFromFile("src/assets/pikachu.png"));
         pokemonImage.setBounds(-45, 75, 450, 250);
         add(pokemonImage);
+
+        height = new JLabel("Height: 4");
+        height.setBounds(50, 175, 100, 54);
+        height.setFont(new Font("Dialog", Font.BOLD, 15));
+        add(height);
+
+        weight = new JLabel("Weight: 60");
+        weight.setBounds(50, 200, 100, 54);
+        weight.setFont(new Font("Dialog", Font.BOLD, 15));
+        add(weight);
 
         pokemonText = new JLabel("Pikachu");
         pokemonText.setBounds(-50, 250, 450, 54);
@@ -91,22 +107,42 @@ public class PokedexAppGui extends JFrame {
                 }
             }
         });
+
+        shinyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+                updatePokemonSprite();
+
+            }
+        });
+
     }
 
+    private JSONObject currentPokemon;
+
     private void updatePokemonInfo(JSONObject pokemon) {
+        currentPokemon = pokemon;
         String name = (String) pokemon.get("name");
         long id = (long) pokemon.get("id");
   
         // Update the text
         pokemonText.setText(name.substring(0, 1).toUpperCase() + name.substring(1));
         pokemonId.setText(String.valueOf(id));
+
+        long pokemonWeight = (long) pokemon.get("weight");
+        long pokemonHeight = (long) pokemon.get("height");
+
+        weight.setText("Weight: " + String.valueOf(pokemonWeight));
+        height.setText("Height: " + String.valueOf(pokemonHeight));
+
+
         // Get the sprite URL from the JSON
         JSONObject sprites = (JSONObject) pokemon.get("sprites");
         String spriteUrl = (String) sprites.get("front_default");
-
         // Load the image from the URL
         pokemonImage.setIcon(loadImageFromUrl(spriteUrl));
-
+        
 
         JSONArray types = (JSONArray) pokemon.get("types");
         JSONObject type = (JSONObject) ((JSONObject) types.get(0)).get("type");
@@ -125,6 +161,18 @@ public class PokedexAppGui extends JFrame {
 
 
         }
+
+
+
+    private void updatePokemonSprite() {
+
+            if(currentPokemon != null){
+                JSONObject sprites = (JSONObject) currentPokemon.get("sprites");
+                String shinySpriteUrl = (String) sprites.get("front_shiny");
+                pokemonImage.setIcon(loadImageFromUrl(shinySpriteUrl));
+            }
+
+    }
 
 
     private ImageIcon loadImageFromFile(String resourcePath) {
