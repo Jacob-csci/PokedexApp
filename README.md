@@ -8,8 +8,8 @@ I would like for the user to be able to access more data in the future other tha
 Some features for the future -
 1. The ability to read descriptions about the pokemon from any game in the francise.
 2. The ability to see a pokemons base stats.
-3. The ability to see a pokemons shiny version.
-4. The ability to see a pokemons height and weight.
+3. The ability to see a pokemons shiny version. Complete
+4. The ability to see a pokemons height and weight. Complete
 
 ### Link to the Pokemon Api 
 https://pokeapi.co/api/v2/pokemon/charmander
