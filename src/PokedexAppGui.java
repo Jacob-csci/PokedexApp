@@ -132,12 +132,12 @@ public class PokedexAppGui extends JFrame {
         speed.setFont(new Font("Dialog", Font.BOLD, 15));
         add(speed);
 
-        ability = new JLabel("<html> Abilities: <br> Static </html>");
+        ability = new JLabel("<html> Abilities: <br> None </html>");
         ability.setBounds(125, 675, 100, 54);
         ability.setFont(new Font("Dialog", Font.BOLD, 15));
         add(ability);
 
-        hiddenAbility = new JLabel("Lightnrod");
+        hiddenAbility = new JLabel("None");
         hiddenAbility.setBounds(125, 700, 100, 54);
         hiddenAbility.setFont(new Font("Dialog", Font.BOLD, 15));
         add(hiddenAbility);
@@ -214,14 +214,19 @@ public class PokedexAppGui extends JFrame {
 
         JSONArray abilities = (JSONArray) pokemon.get("abilities");
         JSONObject ability1 = (JSONObject) ((JSONObject) abilities.get(0)).get("ability");
-        JSONObject ability2 = (JSONObject) ((JSONObject) abilities.get(1)).get("ability");
+        
 
         String abil = (String) ability1.get("name");
-        String abil2 = (String) ability2.get("name");
+        
 
         ability.setText("<html> Abilities: <br>" + abil + "</html>");
-        hiddenAbility.setText(abil2);
-        
+        if(abilities.size() > 1){
+            JSONObject ability2 = (JSONObject) ((JSONObject) abilities.get(1)).get("ability");
+            String abil2 = (String) ability2.get("name");
+            hiddenAbility.setText(abil2);
+        } else {
+            hiddenAbility.setText("None");
+        }
         pokemonType.setText(typeName.substring(0, 1).toUpperCase() + typeName.substring(1));
         if(types.size() > 1){
             JSONObject type2 = (JSONObject) ((JSONObject) types.get(1)).get("type");
@@ -242,7 +247,7 @@ public class PokedexAppGui extends JFrame {
                 JSONObject sprites = (JSONObject) currentPokemon.get("sprites");
                 String shinySpriteUrl = (String) sprites.get("front_shiny");
                 pokemonImage.setIcon(loadImageFromUrl(shinySpriteUrl));
-            }
+            } 
 
     }
 
