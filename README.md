@@ -10,6 +10,7 @@ Some features for the future -
 2. The ability to see a pokemons base stats.
 3. The ability to see a pokemons shiny version. Complete
 4. The ability to see a pokemons height and weight. Complete
+5. Add Base Stats of pokemon. Complete
 
 ### Link to the Pokemon Api 
 https://pokeapi.co/api/v2/pokemon/charmander
